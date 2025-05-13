@@ -1,6 +1,6 @@
 # 🧠 AI & ML Projects Repository
 
-Welcome to my **Artificial Intelligence and Machine Learning** projects portfolio!  
+Welcome to my **Artificial Intelligence and Machine Learning** projects portfolio !  
 This repository contains a collection of hands-on projects I've built using AI/ML concepts, frameworks, and tools. Each project explores different techniques, use-cases, and real-world applications in the field.
 
 ## 🔍 About This Repository
