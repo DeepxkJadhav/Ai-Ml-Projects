@@ -2,6 +2,21 @@
 
 import csv
 import random
+from mood_model import MoodModel
+from recipe_model import RecipeModel
+
+# Step 1: Get mood from user input
+mood_model = MoodModel(mode='text')
+user_text = "I'm feeling low and kind of gloomy today."
+predicted_mood = mood_model.predict(user_text)
+
+# Step 2: Recommend recipe from mood
+recipe_model = RecipeModel()
+recipe = recipe_model.recommend_recipe(predicted_mood, diet="veg")
+
+print(f"Mood Detected: {predicted_mood}")
+print("Suggested Recipe:")
+print(recipe)
 
 class RecipeModel:
     def __init__(self, csv_file='recipes.csv'):
