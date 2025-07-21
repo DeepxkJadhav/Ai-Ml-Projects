@@ -1,70 +1,58 @@
-# mood_model.py
+# recipe_model.py
 
-import torch
-from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
-from torchvision import transforms
-from PIL import Image
-import torch.nn.functional as F
+import csv
+import random
 
-class MoodModel:
-    def __init__(self, mode='text'):
-        self.mode = mode.lower()
+class RecipeModel:
+    def __init__(self, csv_file='recipes.csv'):
+        self.recipes = self._load_recipes(csv_file)
 
-        if self.mode == 'text':
-            self._load_text_model()
-        elif self.mode == 'image':
-            self._load_image_model()
-        else:
-            raise ValueError("Unsupported mode. Choose 'text' or 'image'.")
+    def _load_recipes(self, file_path):
+        recipes = []
+        try:
+            with open(file_path, mode='r', encoding='utf-8') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    recipes.append({
+                        "name": row["name"],
+                        "type": row["type"],
+                        "diet": row["diet"],
+                        "mood": row["mood"],
+                        "cuisine": row["cuisine"],
+                        "ingredients": row["ingredients"],
+                        "instructions": row["instructions"]
+                    })
+        except FileNotFoundError:
+            print("Error: CSV file not found.")
+        return recipes
 
-    def _load_text_model(self):
-        # Load a sentiment analysis model (can be customized)
-        model_name = "nlptown/bert-base-multilingual-uncased-sentiment"
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModelForSequenceClassification.from_pretrained(model_name)
+    def recommend_recipe(self, mood, diet=None, cuisine=None):
+        mood = mood.capitalize()
+        filtered = [r for r in self.recipes if r["mood"] == mood]
 
-    def _load_image_model(self):
-        # Load a simple facial emotion model (example - replace with custom)
-        # NOTE: You need to download or train a facial emotion recognition model
-        from fer import FER
-        self.detector = FER(mtcnn=True)
+        if diet:
+            filtered = [r for r in filtered if r["diet"].lower() == diet.lower()]
 
-    def predict_text_mood(self, text: str):
-        inputs = self.tokenizer(text, return_tensors="pt", truncation=True, padding=True)
-        with torch.no_grad():
-            outputs = self.model(**inputs)
-        probs = F.softmax(outputs.logits, dim=-1)
-        predicted_class = torch.argmax(probs).item()
+        if cuisine:
+            filtered = [r for r in filtered if r["cuisine"].lower() == cuisine.lower()]
 
-        # Custom mapping based on model class labels
-        mood_map = {
-            0: "Very Negative",
-            1: "Negative",
-            2: "Neutral",
-            3: "Positive",
-            4: "Very Positive"
-        }
-        return mood_map.get(predicted_class, "Unknown")
+        if not filtered:
+            return "No matching recipes found."
 
-    def predict_image_mood(self, image_path: str):
-        image = Image.open(image_path)
-        result = self.detector.detect_emotions(image)
-
-        if not result:
-            return "No face detected"
-        top_emotion = max(result[0]['emotions'], key=result[0]['emotions'].get)
-        return top_emotion
-
-    def predict(self, input_data):
-        if self.mode == 'text':
-            return self.predict_text_mood(input_data)
-        elif self.mode == 'image':
-            return self.predict_image_mood(input_data)
+        return random.choice(filtered)
 
 # Example usage
 if __name__ == "__main__":
-    text_model = MoodModel(mode='text')
-    print("Text Mood:", text_model.predict("I'm feeling really happy and energetic today!"))
-
-    image_model = MoodModel(mode='image')
-    print("Image Mood:", image_model.predict("sample_face.jpg"))
+    model = RecipeModel()
+    mood_input = "Sad"
+    recipe = model.recommend_recipe(mood_input, diet="veg")
+    
+    if isinstance(recipe, dict):
+        print(f"Recommended Recipe for Mood '{mood_input}':")
+        print(f"Name: {recipe['name']}")
+        print(f"Type: {recipe['type']}")
+        print(f"Cuisine: {recipe['cuisine']}")
+        print(f"Ingredients: {recipe['ingredients']}")
+        print(f"Instructions: {recipe['instructions']}")
+    else:
+        print(recipe)
