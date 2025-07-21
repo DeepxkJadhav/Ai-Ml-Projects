@@ -1,0 +1,57 @@
+# recipe_model.py
+
+import random
+
+class RecipeModel:
+    def __init__(self):
+        # Mood-to-recipe mappings (can be replaced with a database or ML later)
+        self.recipe_map = {
+            "Happy": [
+                {"name": "Strawberry Smoothie", "type": "drink", "diet": "veg"},
+                {"name": "Cheese Burst Pizza", "type": "main", "diet": "veg"},
+                {"name": "Tandoori Chicken", "type": "main", "diet": "non-veg"}
+            ],
+            "Sad": [
+                {"name": "Warm Chocolate Brownie", "type": "dessert", "diet": "veg"},
+                {"name": "Creamy Mac & Cheese", "type": "main", "diet": "veg"},
+                {"name": "Spicy Chicken Wings", "type": "snack", "diet": "non-veg"}
+            ],
+            "Neutral": [
+                {"name": "Veggie Sandwich", "type": "snack", "diet": "veg"},
+                {"name": "Grilled Chicken Salad", "type": "main", "diet": "non-veg"},
+                {"name": "Fruit Bowl", "type": "snack", "diet": "veg"}
+            ],
+            "Very Positive": [
+                {"name": "Sushi Platter", "type": "main", "diet": "non-veg"},
+                {"name": "Pasta Primavera", "type": "main", "diet": "veg"},
+                {"name": "Mango Lassi", "type": "drink", "diet": "veg"}
+            ],
+            "Very Negative": [
+                {"name": "Hot Chocolate", "type": "drink", "diet": "veg"},
+                {"name": "Butter Chicken", "type": "main", "diet": "non-veg"},
+                {"name": "Dal Khichdi", "type": "main", "diet": "veg"}
+            ]
+        }
+
+    def recommend_recipe(self, mood: str, diet: str = None):
+        mood = mood.capitalize()
+        if mood not in self.recipe_map:
+            return "No recipes available for this mood."
+
+        recipes = self.recipe_map[mood]
+
+        if diet:
+            diet = diet.lower()
+            recipes = [r for r in recipes if r["diet"] == diet]
+
+        if not recipes:
+            return "No matching recipes found for this mood and dietary preference."
+
+        return random.choice(recipes)
+
+# Example usage
+if __name__ == "__main__":
+    model = RecipeModel()
+    mood_input = "Happy"
+    print("Recommended Recipe for mood:", mood_input)
+    print(model.recommend_recipe(mood_input, diet="veg"))
