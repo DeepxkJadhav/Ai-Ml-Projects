@@ -1,3 +1,15 @@
-name,mood,texture,dietary,ingredients,instructions
-Chamomile Tea,anxious,liquid,vegan,"chamomile, water, honey","Boil water, steep tea, add honey"
-Veggie Soup,calm,soft,vegetarian,"carrots, celery, broth","Boil ingredients for 30 min"
+name,type,diet,mood,cuisine,ingredients,instructions
+Strawberry Smoothie,drink,veg,Happy,American,"Strawberries, Yogurt, Honey","Blend all ingredients until smooth."
+Cheese Burst Pizza,main,veg,Happy,Italian,"Pizza base, Cheese, Tomato Sauce","Assemble and bake at 200°C for 15 min."
+Tandoori Chicken,main,non-veg,Happy,Indian,"Chicken, Yogurt, Spices","Marinate and grill until cooked."
+Warm Chocolate Brownie,dessert,veg,Sad,American,"Flour, Cocoa, Sugar, Butter","Mix and bake at 180°C for 20 min."
+Creamy Mac & Cheese,main,veg,Sad,American,"Pasta, Cheese, Milk","Cook pasta and mix with sauce."
+Spicy Chicken Wings,snack,non-veg,Sad,American,"Chicken wings, Hot sauce","Bake or fry wings, toss in sauce."
+Veggie Sandwich,snack,veg,Neutral,Continental,"Bread, Veggies, Mayo","Assemble ingredients between bread slices."
+Grilled Chicken Salad,main,non-veg,Neutral,Continental,"Chicken, Lettuce, Dressing","Grill chicken and toss with salad."
+Fruit Bowl,snack,veg,Neutral,Global,"Assorted Fruits","Cut and mix fruits in a bowl."
+Mango Lassi,drink,veg,Very Positive,Indian,"Mango, Yogurt, Sugar","Blend ingredients and serve chilled."
+Hot Chocolate,drink,veg,Very Negative,American,"Milk, Cocoa, Sugar","Heat and stir until smooth."
+Butter Chicken,main,non-veg,Very Negative,Indian,"Chicken, Butter, Cream, Spices","Cook marinated chicken in sauce."
+Dal Khichdi,main,veg,Very Negative,Indian,"Rice, Lentils, Spices","Pressure cook all ingredients together."
+
